@@ -1,4 +1,4 @@
-module golamb
+module github.com/twharmon/golamb
 
 go 1.18
 
