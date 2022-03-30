@@ -3,8 +3,8 @@ module github.com/twharmon/golamb
 go 1.18
 
 require (
-	github.com/aws/aws-lambda-go v1.28.0
-	github.com/aws/aws-sdk-go v1.43.27
+	github.com/aws/aws-lambda-go v1.29.0
+	github.com/aws/aws-sdk-go v1.43.28
 )
 
 require (
