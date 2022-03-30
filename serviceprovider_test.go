@@ -10,11 +10,9 @@ import (
 
 func TestServiceProviderDBWithConfig(t *testing.T) {
 	sp := &awsServiceProvider{
-		config: &Config{
-			AWSServiceProvider: &AWSServiceProviderConfig{
-				DynamoDB: &aws.Config{
-					Region: aws.String("bar"),
-				},
+		config: &AWSServiceProviderConfig{
+			DynamoDB: &aws.Config{
+				Region: aws.String("bar"),
 			},
 		},
 	}
@@ -29,7 +27,7 @@ func TestServiceProviderDBWithConfig(t *testing.T) {
 }
 
 func TestServiceProviderDBNoSPConfig(t *testing.T) {
-	sp := &awsServiceProvider{config: &Config{}}
+	sp := &awsServiceProvider{config: &AWSServiceProviderConfig{}}
 	db := sp.DynamoDB()
 	dynamodb, ok := db.(*dynamodb.DynamoDB)
 	if !ok {
@@ -41,7 +39,7 @@ func TestServiceProviderDBNoSPConfig(t *testing.T) {
 }
 
 func TestServiceProviderSESNoSPConfig(t *testing.T) {
-	sp := &awsServiceProvider{config: &Config{}}
+	sp := &awsServiceProvider{config: &AWSServiceProviderConfig{}}
 	svc := sp.SES()
 	ses, ok := svc.(*ses.SES)
 	if !ok {

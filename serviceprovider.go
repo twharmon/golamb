@@ -1,6 +1,7 @@
 package golamb
 
 import (
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
@@ -11,11 +12,18 @@ import (
 )
 
 type awsServiceProvider struct {
-	config   *Config
+	config   *AWSServiceProviderConfig
 	session  *session.Session
 	dynamodb *dynamodb.DynamoDB
 	ses      *ses.SES
 	s3       *s3.S3
+}
+
+type AWSServiceProviderConfig struct {
+	Default  *aws.Config
+	DynamoDB *aws.Config
+	SES      *aws.Config
+	S3       *aws.Config
 }
 
 type AWSServiceProvider interface {
@@ -40,16 +48,12 @@ func (sp *awsServiceProvider) loadDynamoDB() {
 		return
 	}
 	sp.loadSession()
-	if sp.config.AWSServiceProvider == nil {
-		sp.dynamodb = dynamodb.New(sp.session)
+	if sp.config.DynamoDB != nil {
+		sp.dynamodb = dynamodb.New(sp.session, sp.config.DynamoDB)
 		return
 	}
-	if sp.config.AWSServiceProvider.DynamoDB != nil {
-		sp.dynamodb = dynamodb.New(sp.session, sp.config.AWSServiceProvider.DynamoDB)
-		return
-	}
-	if sp.config.AWSServiceProvider.Default != nil {
-		sp.dynamodb = dynamodb.New(sp.session, sp.config.AWSServiceProvider.Default)
+	if sp.config.Default != nil {
+		sp.dynamodb = dynamodb.New(sp.session, sp.config.Default)
 		return
 	}
 	sp.dynamodb = dynamodb.New(sp.session)
@@ -60,16 +64,12 @@ func (sp *awsServiceProvider) loadSES() {
 		return
 	}
 	sp.loadSession()
-	if sp.config.AWSServiceProvider == nil {
-		sp.ses = ses.New(sp.session)
+	if sp.config.SES != nil {
+		sp.ses = ses.New(sp.session, sp.config.SES)
 		return
 	}
-	if sp.config.AWSServiceProvider.SES != nil {
-		sp.ses = ses.New(sp.session, sp.config.AWSServiceProvider.SES)
-		return
-	}
-	if sp.config.AWSServiceProvider.Default != nil {
-		sp.ses = ses.New(sp.session, sp.config.AWSServiceProvider.Default)
+	if sp.config.Default != nil {
+		sp.ses = ses.New(sp.session, sp.config.Default)
 		return
 	}
 	sp.ses = ses.New(sp.session)
@@ -80,16 +80,12 @@ func (sp *awsServiceProvider) loadS3() {
 		return
 	}
 	sp.loadSession()
-	if sp.config.AWSServiceProvider == nil {
-		sp.s3 = s3.New(sp.session)
+	if sp.config.S3 != nil {
+		sp.s3 = s3.New(sp.session, sp.config.S3)
 		return
 	}
-	if sp.config.AWSServiceProvider.S3 != nil {
-		sp.s3 = s3.New(sp.session, sp.config.AWSServiceProvider.S3)
-		return
-	}
-	if sp.config.AWSServiceProvider.Default != nil {
-		sp.s3 = s3.New(sp.session, sp.config.AWSServiceProvider.Default)
+	if sp.config.Default != nil {
+		sp.s3 = s3.New(sp.session, sp.config.Default)
 		return
 	}
 	sp.s3 = s3.New(sp.session)
