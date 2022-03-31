@@ -44,6 +44,9 @@ func (r *response) SetHeader(key string, value string) Responder {
 }
 
 func (r *response) SetCookie(cookie *http.Cookie) Responder {
+	if r.headers == nil {
+		r.headers = make(map[string]string)
+	}
 	r.headers["Set-Cookie"] = cookie.String()
 	return r
 }
