@@ -17,14 +17,13 @@ type Config struct {
 
 func Start(handlerFunc WrappedHandler, config ...*Config) {
 	cfg := getConfig(config...)
-	ctx := &handlerContext{
-		req: &request{},
-		sp:  &awsServiceProvider{config: cfg.AWSServiceProvider},
-	}
 	h := &handler{
 		cfg: cfg,
 		handler: func(r *events.APIGatewayV2HTTPRequest) (resp *events.APIGatewayProxyResponse, err error) {
-			ctx.req.request = r
+			ctx := &handlerContext{
+				req: &request{request: r},
+				sp:  &awsServiceProvider{config: cfg.AWSServiceProvider},
+			}
 			defer func() {
 				if r := recover(); r != nil {
 					resp, err = cfg.PanicHandler(ctx, fmt.Errorf("%v", r)).Respond()
