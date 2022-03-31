@@ -14,6 +14,7 @@ type Request interface {
 	Cookie(name string) *http.Cookie
 	Header(key string) string
 	Headers() map[string]string
+	RawPath() string
 }
 
 type request struct {
@@ -47,4 +48,8 @@ func (r *request) Cookie(name string) *http.Cookie {
 		parseCookies(r.cookies, r.request.Cookies)
 	}
 	return r.cookies[name]
+}
+
+func (r *request) RawPath() string {
+	return r.request.RawPath
 }
