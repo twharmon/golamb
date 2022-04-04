@@ -1,6 +1,8 @@
 package golamb
 
 import (
+	"context"
+	"encoding/json"
 	"errors"
 	"net/http"
 	"reflect"
@@ -8,6 +10,31 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 )
+
+func TestGetHandler(t *testing.T) {
+	f := func(c Context) Responder {
+		return c.Response(http.StatusOK)
+	}
+	h := getHandler(f)
+	payload, err := json.Marshal(&events.APIGatewayV2HTTPRequest{})
+	if err != nil {
+		t.Fatalf("unexpected err: %s", err)
+	}
+	resp, err := h.Invoke(context.Background(), payload)
+	if err != nil {
+		t.Fatalf("unexpected err: %s", err)
+	}
+	var got events.APIGatewayV2HTTPResponse
+	if err := json.Unmarshal(resp, &got); err != nil {
+		t.Fatalf("unexpected err: %s", err)
+	}
+	want := events.APIGatewayV2HTTPResponse{
+		StatusCode: http.StatusOK,
+	}
+	if !reflect.DeepEqual(want, got) {
+		t.Fatalf("want %v; got %v", want, got)
+	}
+}
 
 func TestGetConfigEmpty(t *testing.T) {
 	want := &Config{
