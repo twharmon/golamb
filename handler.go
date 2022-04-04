@@ -9,7 +9,7 @@ import (
 
 type handler struct {
 	cfg     *Config
-	handler func(r *events.APIGatewayV2HTTPRequest) (resp *events.APIGatewayProxyResponse, err error)
+	handler func(r *events.APIGatewayV2HTTPRequest) (resp *events.APIGatewayV2HTTPResponse, err error)
 }
 
 func (h *handler) Invoke(ctx context.Context, payload []byte) ([]byte, error) {
@@ -17,16 +17,13 @@ func (h *handler) Invoke(ctx context.Context, payload []byte) ([]byte, error) {
 	if err := json.Unmarshal(payload, &req); err != nil {
 		return nil, err
 	}
-
 	resp, err := h.handler(&req)
 	if err != nil {
 		return nil, err
 	}
-
 	responseBytes, err := json.Marshal(resp)
 	if err != nil {
 		return nil, err
 	}
-
 	return responseBytes, nil
 }

@@ -8,7 +8,7 @@ import (
 )
 
 type Responder interface {
-	Respond() (*events.APIGatewayProxyResponse, error)
+	Respond() (*events.APIGatewayV2HTTPResponse, error)
 	SetHeader(key string, value string) Responder
 	SetCookie(cookie *http.Cookie) Responder
 }
@@ -17,9 +17,10 @@ type response struct {
 	status  int
 	body    interface{}
 	headers map[string]string
+	cookies []string
 }
 
-func (r *response) Respond() (*events.APIGatewayProxyResponse, error) {
+func (r *response) Respond() (*events.APIGatewayV2HTTPResponse, error) {
 	var body string
 	if r.body != nil {
 		b, err := json.Marshal(r.body)
@@ -28,10 +29,11 @@ func (r *response) Respond() (*events.APIGatewayProxyResponse, error) {
 		}
 		body = string(b)
 	}
-	return &events.APIGatewayProxyResponse{
+	return &events.APIGatewayV2HTTPResponse{
 		StatusCode: r.status,
 		Body:       body,
 		Headers:    r.headers,
+		Cookies:    r.cookies,
 	}, nil
 }
 
@@ -44,9 +46,6 @@ func (r *response) SetHeader(key string, value string) Responder {
 }
 
 func (r *response) SetCookie(cookie *http.Cookie) Responder {
-	if r.headers == nil {
-		r.headers = make(map[string]string)
-	}
-	r.headers["Set-Cookie"] = cookie.String()
+	r.cookies = append(r.cookies, cookie.String())
 	return r
 }
