@@ -62,6 +62,17 @@ func TestRequestCookie(t *testing.T) {
 	}
 }
 
+func TestRequestCookieNoCookie(t *testing.T) {
+	ctx := &handlerContext{
+		req: &request{request: &events.APIGatewayV2HTTPRequest{}},
+		sp:  &awsServiceProvider{config: &AWSServiceProviderConfig{}},
+	}
+	cookie := ctx.Request().Cookie("foo")
+	if cookie != nil {
+		t.Fatalf("expected nil cookie: %v", cookie)
+	}
+}
+
 func TestRequestHeader(t *testing.T) {
 	want := "bar"
 	ctx := &handlerContext{

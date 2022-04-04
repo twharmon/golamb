@@ -23,7 +23,7 @@ func parseCookies(cookies map[string]*http.Cookie, lines []string) {
 			if !isCookieNameValid(name) {
 				continue
 			}
-			val, ok := parseCookieValue(val, true)
+			val, ok := parseCookieValue(val)
 			if !ok {
 				continue
 			}
@@ -39,8 +39,8 @@ func isCookieNameValid(raw string) bool {
 	return strings.IndexFunc(raw, isNotToken) < 0
 }
 
-func parseCookieValue(raw string, allowDoubleQuote bool) (string, bool) {
-	if allowDoubleQuote && len(raw) > 1 && raw[0] == '"' && raw[len(raw)-1] == '"' {
+func parseCookieValue(raw string) (string, bool) {
+	if len(raw) > 1 && raw[0] == '"' && raw[len(raw)-1] == '"' {
 		raw = raw[1 : len(raw)-1]
 	}
 	for i := 0; i < len(raw); i++ {
