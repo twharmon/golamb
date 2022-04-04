@@ -19,7 +19,7 @@ func Start(handlerFunc WrappedHandler, config ...*Config) {
 	cfg := getConfig(config...)
 	h := &handler{
 		cfg: cfg,
-		handler: func(r *events.APIGatewayV2HTTPRequest) (resp *events.APIGatewayProxyResponse, err error) {
+		handler: func(r *events.APIGatewayV2HTTPRequest) (resp *events.APIGatewayV2HTTPResponse, err error) {
 			ctx := &handlerContext{
 				req: &request{request: r},
 				sp:  &awsServiceProvider{config: cfg.AWSServiceProvider},
