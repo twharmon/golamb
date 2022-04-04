@@ -16,8 +16,13 @@ type Config struct {
 }
 
 func Start(handlerFunc WrappedHandler, config ...*Config) {
+	h := getHandler(handlerFunc, config...)
+	lambda.StartHandler(h)
+}
+
+func getHandler(handlerFunc WrappedHandler, config ...*Config) lambda.Handler {
 	cfg := getConfig(config...)
-	h := &handler{
+	return &handler{
 		cfg: cfg,
 		handler: func(r *events.APIGatewayV2HTTPRequest) (resp *events.APIGatewayV2HTTPResponse, err error) {
 			ctx := &handlerContext{
@@ -32,7 +37,6 @@ func Start(handlerFunc WrappedHandler, config ...*Config) {
 			return handlerFunc(ctx).Respond()
 		},
 	}
-	lambda.StartHandler(h)
 }
 
 func getConfig(configs ...*Config) *Config {
