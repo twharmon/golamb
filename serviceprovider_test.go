@@ -7,6 +7,8 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/ses"
+	"github.com/aws/aws-sdk-go/service/ssm"
+	"github.com/aws/aws-sdk-go/service/sts"
 )
 
 func TestServiceProviderDBWithConfig(t *testing.T) {
@@ -205,6 +207,132 @@ func TestServiceProviderSessionCached(t *testing.T) {
 		t.Fatalf("expected ok")
 	}
 	if s3 == nil {
+		t.Fatalf("expected not nil")
+	}
+}
+
+func TestServiceProviderSSMWithConfig(t *testing.T) {
+	sp := &awsServiceProvider{
+		config: &AWSServiceProviderConfig{
+			SSM: &aws.Config{
+				Region: aws.String("bar"),
+			},
+		},
+	}
+	svc := sp.SSM()
+	ssm, ok := svc.(*ssm.SSM)
+	if !ok {
+		t.Fatalf("expected ok")
+	}
+	if ssm == nil {
+		t.Fatalf("expected not nil")
+	}
+}
+
+func TestServiceProviderSSMDefaultSPConfig(t *testing.T) {
+	sp := &awsServiceProvider{config: &AWSServiceProviderConfig{
+		Default: &aws.Config{
+			Region: aws.String("bar"),
+		},
+	}}
+	svc := sp.SSM()
+	ssm, ok := svc.(*ssm.SSM)
+	if !ok {
+		t.Fatalf("expected ok")
+	}
+	if ssm == nil {
+		t.Fatalf("expected not nil")
+	}
+}
+
+func TestServiceProviderSSMNoSPConfig(t *testing.T) {
+	c := &handlerContext{
+		sp: &awsServiceProvider{config: &AWSServiceProviderConfig{}},
+	}
+	svc := c.AWS().SSM()
+	ssm, ok := svc.(*ssm.SSM)
+	if !ok {
+		t.Fatalf("expected ok")
+	}
+	if ssm == nil {
+		t.Fatalf("expected not nil")
+	}
+}
+
+func TestServiceProviderSSMCached(t *testing.T) {
+	c := &handlerContext{
+		sp: &awsServiceProvider{config: &AWSServiceProviderConfig{}},
+	}
+	svc := c.AWS().SSM()
+	svc = c.AWS().SSM()
+	ssm, ok := svc.(*ssm.SSM)
+	if !ok {
+		t.Fatalf("expected ok")
+	}
+	if ssm == nil {
+		t.Fatalf("expected not nil")
+	}
+}
+
+func TestServiceProviderSTSWithConfig(t *testing.T) {
+	sp := &awsServiceProvider{
+		config: &AWSServiceProviderConfig{
+			STS: &aws.Config{
+				Region: aws.String("bar"),
+			},
+		},
+	}
+	svc := sp.STS()
+	sts, ok := svc.(*sts.STS)
+	if !ok {
+		t.Fatalf("expected ok")
+	}
+	if sts == nil {
+		t.Fatalf("expected not nil")
+	}
+}
+
+func TestServiceProviderSTSDefaultSPConfig(t *testing.T) {
+	sp := &awsServiceProvider{config: &AWSServiceProviderConfig{
+		Default: &aws.Config{
+			Region: aws.String("bar"),
+		},
+	}}
+	svc := sp.STS()
+	sts, ok := svc.(*sts.STS)
+	if !ok {
+		t.Fatalf("expected ok")
+	}
+	if sts == nil {
+		t.Fatalf("expected not nil")
+	}
+}
+
+func TestServiceProviderSTSNoSPConfig(t *testing.T) {
+	c := &handlerContext{
+		sp: &awsServiceProvider{config: &AWSServiceProviderConfig{}},
+	}
+	svc := c.AWS().STS()
+	sts, ok := svc.(*sts.STS)
+	if !ok {
+		t.Fatalf("expected ok")
+	}
+	if sts == nil {
+		t.Fatalf("expected not nil")
+	}
+}
+
+func TestServiceProviderSTSCached(t *testing.T) {
+	c := &handlerContext{
+		sp: &awsServiceProvider{config: &AWSServiceProviderConfig{}},
+	}
+	svc := c.AWS().STS()
+	svc = c.AWS().STS()
+	sts, ok := svc.(*sts.STS)
+	if !ok {
+		t.Fatalf("expected ok")
+	}
+	if sts == nil {
 		t.Fatalf("expected not nil")
 	}
 }
