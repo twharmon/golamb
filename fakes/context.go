@@ -13,7 +13,11 @@ type Context struct {
 }
 
 func NewContext() *Context {
-	return &Context{}
+	return &Context{
+		request:  NewRequest(),
+		response: NewResponse(),
+		aws:      NewAWS(),
+	}
 }
 
 func (c *Context) Request() golamb.Request {
