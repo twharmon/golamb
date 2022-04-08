@@ -1,5 +1,11 @@
 package fakes
 
+import (
+	"encoding/json"
+
+	"github.com/twharmon/golamb"
+)
+
 type Context struct {
 	request  *Request
 	response *Response
@@ -10,15 +16,26 @@ func NewContext() *Context {
 	return &Context{}
 }
 
-func (c *Context) Request() *Request {
+func (c *Context) Request() golamb.Request {
 	return c.request
 }
 
-func (c *Context) AWS() *AWS {
+func (c *Context) AWS() golamb.AWSServiceProvider {
 	return c.aws
 }
 
-func (c *Context) Response() *Response {
+func (c *Context) Response(status int, body ...interface{}) golamb.Responder {
+	c.response.response.StatusCode = status
+	var b string
+	if len(body) > 0 {
+		bs, err := json.Marshal(body[0])
+		if err != nil {
+			c.response.err = err
+			return c.response
+		}
+		c.response.response.Body = string(bs)
+	}
+	c.response.response.Body = b
 	return c.response
 }
 

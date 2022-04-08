@@ -9,15 +9,14 @@ import (
 
 type Response struct {
 	response *events.APIGatewayV2HTTPResponse
-	cookie   []*http.Cookie
-	header   map[string]string
 	err      error
 }
 
-func NewResponse(response *events.APIGatewayV2HTTPResponse, err error) *Response {
+func NewResponse() *Response {
 	return &Response{
-		response: response,
-		err:      err,
+		response: &events.APIGatewayV2HTTPResponse{
+			Headers: make(map[string]string),
+		},
 	}
 }
 
@@ -26,11 +25,11 @@ func (r *Response) Respond() (*events.APIGatewayV2HTTPResponse, error) {
 }
 
 func (r *Response) SetCookie(cookie *http.Cookie) golamb.Responder {
-	r.cookie = append(r.cookie, cookie)
+	r.response.Cookies = append(r.response.Cookies, cookie.String())
 	return r
 }
 
 func (r *Response) SetHeader(key string, val string) golamb.Responder {
-	r.header[key] = val
+	r.response.Headers[key] = val
 	return r
 }
