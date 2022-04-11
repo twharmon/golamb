@@ -249,3 +249,192 @@ func TestContextLogSilent(t *testing.T) {
 		t.Fatalf("want %v; got %v", want, got)
 	}
 }
+
+func TestContextLogCriticalNone(t *testing.T) {
+	fname := "TestContextLogCriticalNone"
+	f, err := os.Create(fname)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		f.Close()
+		os.Remove(fname)
+	}()
+	want := ""
+	os.Stdout = f
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelSilent,
+	}
+	ctx.LogCritical("foo %s", "bar")
+	b, err := ioutil.ReadFile(fname)
+	if err != nil {
+		t.Fatalf("unexpected err: %s", err)
+	}
+	got := string(b)
+	if want != got {
+		t.Fatalf("want %v; got %v", want, got)
+	}
+}
+
+func TestContextLogAlertNone(t *testing.T) {
+	fname := "TestContextLogAlertNone"
+	f, err := os.Create(fname)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		f.Close()
+		os.Remove(fname)
+	}()
+	want := ""
+	os.Stdout = f
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelSilent,
+	}
+	ctx.LogAlert("foo %s", "bar")
+	b, err := ioutil.ReadFile(fname)
+	if err != nil {
+		t.Fatalf("unexpected err: %s", err)
+	}
+	got := string(b)
+	if want != got {
+		t.Fatalf("want %v; got %v", want, got)
+	}
+}
+
+func TestContextLogErrorNone(t *testing.T) {
+	fname := "TestContextLogErrorNone"
+	f, err := os.Create(fname)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		f.Close()
+		os.Remove(fname)
+	}()
+	want := ""
+	os.Stdout = f
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelSilent,
+	}
+	ctx.LogError("foo %s", "bar")
+	b, err := ioutil.ReadFile(fname)
+	if err != nil {
+		t.Fatalf("unexpected err: %s", err)
+	}
+	got := string(b)
+	if want != got {
+		t.Fatalf("want %v; got %v", want, got)
+	}
+}
+
+func TestContextLogNoticeNone(t *testing.T) {
+	fname := "TestContextLogNoticeNone"
+	f, err := os.Create(fname)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		f.Close()
+		os.Remove(fname)
+	}()
+	want := ""
+	os.Stdout = f
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelSilent,
+	}
+	ctx.LogNotice("foo %s", "bar")
+	b, err := ioutil.ReadFile(fname)
+	if err != nil {
+		t.Fatalf("unexpected err: %s", err)
+	}
+	got := string(b)
+	if want != got {
+		t.Fatalf("want %v; got %v", want, got)
+	}
+}
+
+func TestContextLogInfoNone(t *testing.T) {
+	fname := "TestContextLogInfoNone"
+	f, err := os.Create(fname)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		f.Close()
+		os.Remove(fname)
+	}()
+	want := ""
+	os.Stdout = f
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelSilent,
+	}
+	ctx.LogInfo("foo %s", "bar")
+	b, err := ioutil.ReadFile(fname)
+	if err != nil {
+		t.Fatalf("unexpected err: %s", err)
+	}
+	got := string(b)
+	if want != got {
+		t.Fatalf("want %v; got %v", want, got)
+	}
+}
+
+func TestContextLogDebugNone(t *testing.T) {
+	fname := "TestContextLogDebugNone"
+	f, err := os.Create(fname)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		f.Close()
+		os.Remove(fname)
+	}()
+	want := ""
+	os.Stdout = f
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelSilent,
+	}
+	ctx.LogDebug("foo %s", "bar")
+	b, err := ioutil.ReadFile(fname)
+	if err != nil {
+		t.Fatalf("unexpected err: %s", err)
+	}
+	got := string(b)
+	if want != got {
+		t.Fatalf("want %v; got %v", want, got)
+	}
+}
+
+func TestContextLogWarningNone(t *testing.T) {
+	fname := "TestContextLogWarningNone"
+	f, err := os.Create(fname)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		f.Close()
+		os.Remove(fname)
+	}()
+	want := ""
+	os.Stdout = f
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelSilent,
+	}
+	ctx.LogWarning("foo %s", "bar")
+	b, err := ioutil.ReadFile(fname)
+	if err != nil {
+		t.Fatalf("unexpected err: %s", err)
+	}
+	got := string(b)
+	if want != got {
+		t.Fatalf("want %v; got %v", want, got)
+	}
+}

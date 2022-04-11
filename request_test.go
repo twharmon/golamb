@@ -1,6 +1,7 @@
 package golamb
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -81,6 +82,30 @@ func TestRequestHeader(t *testing.T) {
 	}
 	got := ctx.Request().Header("foo")
 	if want != got {
+		t.Fatalf("want %v; got %v", want, got)
+	}
+}
+
+func TestRequestRawPath(t *testing.T) {
+	want := "/foo"
+	ctx := &handlerContext{
+		req: &request{request: &events.APIGatewayV2HTTPRequest{RawPath: want}},
+		sp:  &awsServiceProvider{config: &AWSServiceProviderConfig{}},
+	}
+	got := ctx.Request().RawPath()
+	if want != got {
+		t.Fatalf("want %v; got %v", want, got)
+	}
+}
+
+func TestRequestHeaders(t *testing.T) {
+	want := map[string]string{"foo": "bar"}
+	ctx := &handlerContext{
+		req: &request{request: &events.APIGatewayV2HTTPRequest{Headers: want}},
+		sp:  &awsServiceProvider{config: &AWSServiceProviderConfig{}},
+	}
+	got := ctx.Request().Headers()
+	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("want %v; got %v", want, got)
 	}
 }
