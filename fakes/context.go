@@ -30,16 +30,13 @@ func (c *Context) AWS() golamb.AWSServiceProvider {
 
 func (c *Context) Response(status int, body ...interface{}) golamb.Responder {
 	c.response.response.StatusCode = status
-	var b string
 	if len(body) > 0 {
 		bs, err := json.Marshal(body[0])
 		if err != nil {
 			c.response.err = err
-			return c.response
 		}
 		c.response.response.Body = string(bs)
 	}
-	c.response.response.Body = b
 	return c.response
 }
 

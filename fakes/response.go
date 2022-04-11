@@ -1,7 +1,6 @@
 package fakes
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -19,12 +18,6 @@ func NewResponse() *Response {
 			Headers: make(map[string]string),
 		},
 	}
-}
-
-func (r *Response) WithBody(v interface{}) {
-	b, err := json.Marshal(v)
-	r.response.Body = string(b)
-	r.err = err
 }
 
 func (r *Response) Respond() (*events.APIGatewayV2HTTPResponse, error) {
