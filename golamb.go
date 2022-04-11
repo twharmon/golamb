@@ -8,26 +8,34 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-type WrappedHandler func(c Context) Responder
+// Handler is invoked when API Gateway invokes your lambda.
+type Handler func(c Context) Responder
 
+// Config provides service configuration for service clients.
 type Config struct {
 	AWSServiceProvider *AWSServiceProviderConfig
 	PanicHandler       func(c Context, err error) Responder
+	LogLevel           LogLevel
+	Logger             Logger
 }
 
-func Start(handlerFunc WrappedHandler, config ...*Config) {
+// Start takes in a Handler function. This is similar to
+// lambda.StartHandler. An optional Config can be passed in.
+func Start(handlerFunc Handler, config ...*Config) {
 	h := getHandler(handlerFunc, config...)
 	lambda.StartHandler(h)
 }
 
-func getHandler(handlerFunc WrappedHandler, config ...*Config) lambda.Handler {
+func getHandler(handlerFunc Handler, config ...*Config) lambda.Handler {
 	cfg := getConfig(config...)
 	return &handler{
 		cfg: cfg,
 		handler: func(r *events.APIGatewayV2HTTPRequest) (resp *events.APIGatewayV2HTTPResponse, err error) {
 			ctx := &handlerContext{
-				req: &request{request: r},
-				sp:  &awsServiceProvider{config: cfg.AWSServiceProvider},
+				req:      &request{request: r},
+				sp:       &awsServiceProvider{config: cfg.AWSServiceProvider},
+				logger:   cfg.Logger,
+				logLevel: cfg.LogLevel,
 			}
 			defer func() {
 				if r := recover(); r != nil {
@@ -51,6 +59,9 @@ func getConfig(configs ...*Config) *Config {
 	}
 	if cfg.AWSServiceProvider == nil {
 		cfg.AWSServiceProvider = &AWSServiceProviderConfig{}
+	}
+	if cfg.Logger == nil {
+		cfg.Logger = NewDefaultLogger()
 	}
 	return cfg
 }

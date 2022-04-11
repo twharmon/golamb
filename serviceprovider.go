@@ -25,6 +25,8 @@ type awsServiceProvider struct {
 	ssm      *ssm.SSM
 }
 
+// AWSServiceProviderConfig holds config information for the AWS
+// service clients served by the AWSServiceProvider.
 type AWSServiceProviderConfig struct {
 	Default  *aws.Config
 	DynamoDB *aws.Config
@@ -34,11 +36,21 @@ type AWSServiceProviderConfig struct {
 	SSM      *aws.Config
 }
 
+// AWSServiceProvider provides some common AWS service clients.
 type AWSServiceProvider interface {
+	// DynamoDB provides a DynamoDB client
 	DynamoDB() dynamodbiface.DynamoDBAPI
+
+	// SES provides a SES client
 	SES() sesiface.SESAPI
+
+	// S3 provides a S3 client
 	S3() s3iface.S3API
+
+	// STS provides a STS client
 	STS() stsiface.STSAPI
+
+	// SSM provides a SSM client
 	SSM() ssmiface.SSMAPI
 }
 

@@ -19,7 +19,10 @@ func TestContextLogDebug(t *testing.T) {
 	}()
 	want := "[DEBUG] foo bar\n"
 	os.Stdout = f
-	ctx := &handlerContext{}
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelDebug,
+	}
 	ctx.LogDebug("foo %s", "bar")
 	b, err := ioutil.ReadFile(fname)
 	if err != nil {
@@ -43,7 +46,10 @@ func TestContextLogInfo(t *testing.T) {
 	}()
 	want := "[INFO] foo bar\n"
 	os.Stdout = f
-	ctx := &handlerContext{}
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelInfo,
+	}
 	ctx.LogInfo("foo %s", "bar")
 	b, err := ioutil.ReadFile(fname)
 	if err != nil {
@@ -67,7 +73,10 @@ func TestContextLogNotice(t *testing.T) {
 	}()
 	want := "[NOTICE] foo bar\n"
 	os.Stdout = f
-	ctx := &handlerContext{}
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelNotice,
+	}
 	ctx.LogNotice("foo %s", "bar")
 	b, err := ioutil.ReadFile(fname)
 	if err != nil {
@@ -91,7 +100,10 @@ func TestContextLogWarning(t *testing.T) {
 	}()
 	want := "[WARNING] foo bar\n"
 	os.Stdout = f
-	ctx := &handlerContext{}
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelWarning,
+	}
 	ctx.LogWarning("foo %s", "bar")
 	b, err := ioutil.ReadFile(fname)
 	if err != nil {
@@ -115,7 +127,10 @@ func TestContextLogError(t *testing.T) {
 	}()
 	want := "[ERROR] foo bar\n"
 	os.Stdout = f
-	ctx := &handlerContext{}
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelError,
+	}
 	ctx.LogError("foo %s", "bar")
 	b, err := ioutil.ReadFile(fname)
 	if err != nil {
@@ -139,7 +154,10 @@ func TestContextLogAlert(t *testing.T) {
 	}()
 	want := "[ALERT] foo bar\n"
 	os.Stdout = f
-	ctx := &handlerContext{}
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelAlert,
+	}
 	ctx.LogAlert("foo %s", "bar")
 	b, err := ioutil.ReadFile(fname)
 	if err != nil {
@@ -163,7 +181,10 @@ func TestContextLogCritical(t *testing.T) {
 	}()
 	want := "[CRITICAL] foo bar\n"
 	os.Stdout = f
-	ctx := &handlerContext{}
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelCritical,
+	}
 	ctx.LogCritical("foo %s", "bar")
 	b, err := ioutil.ReadFile(fname)
 	if err != nil {
@@ -187,7 +208,37 @@ func TestContextLogEmergency(t *testing.T) {
 	}()
 	want := "[EMERGENCY] foo bar\n"
 	os.Stdout = f
-	ctx := &handlerContext{}
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelEmergency,
+	}
+	ctx.LogEmergency("foo %s", "bar")
+	b, err := ioutil.ReadFile(fname)
+	if err != nil {
+		t.Fatalf("unexpected err: %s", err)
+	}
+	got := string(b)
+	if want != got {
+		t.Fatalf("want %v; got %v", want, got)
+	}
+}
+
+func TestContextLogSilent(t *testing.T) {
+	fname := "TestContextLogSilent"
+	f, err := os.Create(fname)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		f.Close()
+		os.Remove(fname)
+	}()
+	want := ""
+	os.Stdout = f
+	ctx := &handlerContext{
+		logger:   NewDefaultLogger(),
+		logLevel: LogLevelSilent,
+	}
 	ctx.LogEmergency("foo %s", "bar")
 	b, err := ioutil.ReadFile(fname)
 	if err != nil {
