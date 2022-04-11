@@ -7,9 +7,15 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 )
 
+// Responder responds to the request.
 type Responder interface {
+	// Respond responds to the http request.
 	Respond() (*events.APIGatewayV2HTTPResponse, error)
+
+	// SetHeader sets a response header with the given key and value.
 	SetHeader(key string, value string) Responder
+
+	// SetCookie sets a response cookie with the given key and value.
 	SetCookie(cookie *http.Cookie) Responder
 }
 

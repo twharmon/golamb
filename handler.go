@@ -12,6 +12,7 @@ type handler struct {
 	handler func(r *events.APIGatewayV2HTTPRequest) (resp *events.APIGatewayV2HTTPResponse, err error)
 }
 
+// Invoke implements the lambda.Handler interface.
 func (h *handler) Invoke(ctx context.Context, payload []byte) ([]byte, error) {
 	var req events.APIGatewayV2HTTPRequest
 	if err := json.Unmarshal(payload, &req); err != nil {

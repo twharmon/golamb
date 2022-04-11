@@ -65,7 +65,7 @@ func TestGetConfigProvided(t *testing.T) {
 }
 
 func TestPanicHandler(t *testing.T) {
-	got, err := defaultPanicHandler(&handlerContext{}, errors.New("foo")).Respond()
+	got, err := defaultPanicHandler(&handlerContext{logger: NewDefaultLogger()}, errors.New("foo")).Respond()
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}

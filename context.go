@@ -4,23 +4,61 @@ import (
 	"fmt"
 )
 
+// Context is the central piece of golamb. It allows one to access
+// a requests query parameters, path parameters, body, headers, and
+// cookies. An AWS service provider can also be lazy loaded. Messages
+// can be logged to the provided logger according to the provided log
+// level.
 type Context interface {
+	// Request returns the http request.
 	Request() Request
+
+	// AWS returns the AWSServiceProvider.
 	AWS() AWSServiceProvider
+
+	// Response returns an http response with the given status code.
+	// An options response body can be provided as the second
+	// argument.
 	Response(status int, body ...interface{}) Responder
+
+	// LogDebug logs the given message. Arguments are handled in the
+	// manner of fmt.Printf.
 	LogDebug(message string, args ...interface{})
+
+	// LogInfo logs the given message. Arguments are handled in the
+	// manner of fmt.Printf.
 	LogInfo(message string, args ...interface{})
+
+	// LogNotice logs the given message. Arguments are handled in the
+	// manner of fmt.Printf.
 	LogNotice(message string, args ...interface{})
+
+	// LogWarning logs the given message. Arguments are handled in
+	// the manner of fmt.Printf.
 	LogWarning(message string, args ...interface{})
+
+	// LogError logs the given message. Arguments are handled in the
+	// manner of fmt.Printf.
 	LogError(message string, args ...interface{})
+
+	// LogCritical logs the given message. Arguments are handled in
+	// the manner of fmt.Printf.
 	LogCritical(message string, args ...interface{})
+
+	// LogAlert logs the given message. Arguments are handled in the
+	// manner of fmt.Printf.
 	LogAlert(message string, args ...interface{})
+
+	// LogEmergency logs the given message. Arguments are handled in
+	// the manner of fmt.Printf.
 	LogEmergency(message string, args ...interface{})
 }
 
 type handlerContext struct {
-	req *request
-	sp  *awsServiceProvider
+	req      *request
+	sp       *awsServiceProvider
+	logger   Logger
+	logLevel LogLevel
 }
 
 func (c *handlerContext) Request() Request {
@@ -40,37 +78,62 @@ func (c *handlerContext) Response(status int, body ...interface{}) Responder {
 }
 
 func (c *handlerContext) LogDebug(message string, args ...interface{}) {
-	c.log("DEBUG", message, args...)
+	if c.logLevel > LogLevelDebug {
+		return
+	}
+	c.log(LogLevelDebug, message, args...)
 }
 
 func (c *handlerContext) LogInfo(message string, args ...interface{}) {
-	c.log("INFO", message, args...)
+	if c.logLevel > LogLevelInfo {
+		return
+	}
+	c.log(LogLevelInfo, message, args...)
 }
 
 func (c *handlerContext) LogNotice(message string, args ...interface{}) {
-	c.log("NOTICE", message, args...)
+	if c.logLevel > LogLevelNotice {
+		return
+	}
+	c.log(LogLevelNotice, message, args...)
 }
 
 func (c *handlerContext) LogWarning(message string, args ...interface{}) {
-	c.log("WARNING", message, args...)
+	if c.logLevel > LogLevelWarning {
+		return
+	}
+	c.log(LogLevelWarning, message, args...)
 }
 
 func (c *handlerContext) LogError(message string, args ...interface{}) {
-	c.log("ERROR", message, args...)
+	if c.logLevel > LogLevelError {
+		return
+	}
+	c.log(LogLevelError, message, args...)
 }
 
 func (c *handlerContext) LogCritical(message string, args ...interface{}) {
-	c.log("CRITICAL", message, args...)
+	if c.logLevel > LogLevelCritical {
+		return
+	}
+	c.log(LogLevelCritical, message, args...)
 }
 
 func (c *handlerContext) LogAlert(message string, args ...interface{}) {
-	c.log("ALERT", message, args...)
+	if c.logLevel > LogLevelAlert {
+		return
+	}
+	c.log(LogLevelAlert, message, args...)
 }
 
 func (c *handlerContext) LogEmergency(message string, args ...interface{}) {
-	c.log("EMERGENCY", message, args...)
+	if c.logLevel > LogLevelEmergency {
+		return
+	}
+	c.log(LogLevelEmergency, message, args...)
 }
 
-func (c *handlerContext) log(tag string, message string, args ...interface{}) {
-	fmt.Printf("[%s] %s\n", tag, fmt.Sprintf(message, args...))
+func (c *handlerContext) log(level LogLevel, message string, args ...interface{}) {
+	msg := fmt.Sprintf("[%s] %s", level, fmt.Sprintf(message, args...))
+	c.logger.Log(level, msg)
 }

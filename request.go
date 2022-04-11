@@ -7,13 +7,28 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 )
 
+// Request holds the http request data.
 type Request interface {
+	// Query returns the query parameter with the given key.
 	Query(key string) string
+
+	// Path returns the path parameter with the given key.
 	Path(key string) string
+
+	// Body parses the JSON-encoded data and stores the result in the
+	// value pointed to by v.
 	Body(v interface{}) error
+
+	// Cookie returns the cookie with the given name.
 	Cookie(name string) *http.Cookie
+
+	// Header returns the header value with the given key.
 	Header(key string) string
+
+	// Headers returns a map of all the headers.
 	Headers() map[string]string
+
+	// RawPath returns the raw path.
 	RawPath() string
 }
 
