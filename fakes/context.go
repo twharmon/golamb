@@ -3,29 +3,29 @@
 // your lambda handler functions.
 //
 // Example:
-//	package main
+//    package main
 //
-// 	func handler(c golamb.Context) golamb.Responder {
-//  	foo := c.Request().Query("foo")
-//  	body := map[string]string{"foo": foo}
-// 		return c.Response(200, body)
-// 	}
+//    func handler(c golamb.Context) golamb.Responder {
+//        foo := c.Request().Query("foo")
+//        body := map[string]string{"foo": foo}
+//        return c.Response(200, body)
+//    }
 //
-//  func main() {
-//		golamb.Start(handler)
-//	}
+//    func main() {
+//        golamb.Start(handler)
+//    }
 //
-//  func TestHandler(t *testing.T) {
-//  	req := fakes.NewRequest().WithQuery(map[string]string{"foo": "bar"})
-// 		ctx := fakes.NewContext().WithRequest(req)
-// 		resp, err := handler(ctx).Respond()
-//  	if err != nil {
-//   		t.Fatalf("unexpected err: %s", err)
-//  	}
-//  	if resp.Body != `{"foo":"bar"}` {
-// 			t.Fatalf("incorrect response: %v", resp)
-// 		}
-//  }
+//    func TestHandler(t *testing.T) {
+//        req := fakes.NewRequest().WithQuery(map[string]string{"foo": "bar"})
+//        ctx := fakes.NewContext().WithRequest(req)
+//        resp, err := handler(ctx).Respond()
+//        if err != nil {
+//            t.Fatalf("unexpected err: %s", err)
+//        }
+//        if resp.Body != `{"foo":"bar"}` {
+//            t.Fatalf("incorrect response: %v", resp)
+//        }
+//    }
 package fakes
 
 import (
