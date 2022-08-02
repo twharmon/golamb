@@ -9,6 +9,8 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3iface"
 	"github.com/aws/aws-sdk-go/service/ses"
 	"github.com/aws/aws-sdk-go/service/ses/sesiface"
+	"github.com/aws/aws-sdk-go/service/sfn"
+	"github.com/aws/aws-sdk-go/service/sfn/sfniface"
 	"github.com/aws/aws-sdk-go/service/ssm"
 	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
 	"github.com/aws/aws-sdk-go/service/sts"
@@ -23,6 +25,7 @@ type awsServiceProvider struct {
 	s3       *s3.S3
 	sts      *sts.STS
 	ssm      *ssm.SSM
+	sfn      *sfn.SFN
 }
 
 // AWSServiceProviderConfig holds config information for the AWS
@@ -34,6 +37,7 @@ type AWSServiceProviderConfig struct {
 	S3       *aws.Config
 	STS      *aws.Config
 	SSM      *aws.Config
+	SFN      *aws.Config
 }
 
 // AWSServiceProvider provides some common AWS service clients.
@@ -52,6 +56,9 @@ type AWSServiceProvider interface {
 
 	// SSM provides a SSM client
 	SSM() ssmiface.SSMAPI
+
+	// SFN provides a SFN client
+	SFN() sfniface.SFNAPI
 }
 
 func (sp *awsServiceProvider) loadSession() {
@@ -145,6 +152,22 @@ func (sp *awsServiceProvider) loadSTS() {
 	sp.sts = sts.New(sp.session)
 }
 
+func (sp *awsServiceProvider) loadSFN() {
+	if sp.sfn != nil {
+		return
+	}
+	sp.loadSession()
+	if sp.config.SFN != nil {
+		sp.sfn = sfn.New(sp.session, sp.config.SFN)
+		return
+	}
+	if sp.config.Default != nil {
+		sp.sfn = sfn.New(sp.session, sp.config.Default)
+		return
+	}
+	sp.sfn = sfn.New(sp.session)
+}
+
 func (sp *awsServiceProvider) DynamoDB() dynamodbiface.DynamoDBAPI {
 	sp.loadDynamoDB()
 	return sp.dynamodb
@@ -168,4 +191,9 @@ func (sp *awsServiceProvider) STS() stsiface.STSAPI {
 func (sp *awsServiceProvider) SSM() ssmiface.SSMAPI {
 	sp.loadSSM()
 	return sp.ssm
+}
+
+func (sp *awsServiceProvider) SFN() sfniface.SFNAPI {
+	sp.loadSFN()
+	return sp.sfn
 }

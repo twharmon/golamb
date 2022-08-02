@@ -4,6 +4,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
 	"github.com/aws/aws-sdk-go/service/s3/s3iface"
 	"github.com/aws/aws-sdk-go/service/ses/sesiface"
+	"github.com/aws/aws-sdk-go/service/sfn/sfniface"
 	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
 	"github.com/aws/aws-sdk-go/service/sts/stsiface"
 )
@@ -15,6 +16,7 @@ type AWS struct {
 	s3       s3iface.S3API
 	sts      stsiface.STSAPI
 	ssm      ssmiface.SSMAPI
+	sfn      sfniface.SFNAPI
 }
 
 // NewAWS creates a value that implements the
@@ -48,6 +50,11 @@ func (a *AWS) SSM() ssmiface.SSMAPI {
 	return a.ssm
 }
 
+// SFN implements the golamb.AWSServiceProvider interface.
+func (a *AWS) SFN() sfniface.SFNAPI {
+	return a.sfn
+}
+
 // WithDynamoDB sets the dynamodb client of the AWSServiceProvider.
 func (a *AWS) WithDynamoDB(svc dynamodbiface.DynamoDBAPI) *AWS {
 	a.dynamodb = svc
@@ -75,5 +82,11 @@ func (a *AWS) WithSTS(svc stsiface.STSAPI) *AWS {
 // WithSSM sets the ssm client of the AWSServiceProvider.
 func (a *AWS) WithSSM(svc ssmiface.SSMAPI) *AWS {
 	a.ssm = svc
+	return a
+}
+
+// WithSFN sets the sfn client of the AWSServiceProvider.
+func (a *AWS) WithSFN(svc sfniface.SFNAPI) *AWS {
+	a.sfn = svc
 	return a
 }
