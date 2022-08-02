@@ -4,6 +4,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
 	"github.com/aws/aws-sdk-go/service/s3/s3iface"
 	"github.com/aws/aws-sdk-go/service/ses/sesiface"
+	"github.com/aws/aws-sdk-go/service/sfn/sfniface"
 	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
 	"github.com/aws/aws-sdk-go/service/sts/stsiface"
 )
@@ -14,6 +15,7 @@ type AWS struct {
 	s3       s3iface.S3API
 	sts      stsiface.STSAPI
 	ssm      ssmiface.SSMAPI
+	sfn      sfniface.SFNAPI
 }
 
 func NewAWS() *AWS {
@@ -40,6 +42,10 @@ func (a *AWS) SSM() ssmiface.SSMAPI {
 	return a.ssm
 }
 
+func (a *AWS) SFN() sfniface.SFNAPI {
+	return a.sfn
+}
+
 func (a *AWS) WithDynamoDB(svc dynamodbiface.DynamoDBAPI) *AWS {
 	a.dynamodb = svc
 	return a
@@ -62,5 +68,10 @@ func (a *AWS) WithSTS(svc stsiface.STSAPI) *AWS {
 
 func (a *AWS) WithSSM(svc ssmiface.SSMAPI) *AWS {
 	a.ssm = svc
+	return a
+}
+
+func (a *AWS) WithSFN(svc sfniface.SFNAPI) *AWS {
+	a.sfn = svc
 	return a
 }
