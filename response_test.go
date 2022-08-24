@@ -11,7 +11,6 @@ import (
 func TestResponseOKEmpty(t *testing.T) {
 	ctx := &handlerContext{
 		req: &request{request: &events.APIGatewayV2HTTPRequest{}},
-		sp:  &awsServiceProvider{config: &AWSServiceProviderConfig{}},
 	}
 	got, err := ctx.Response(http.StatusOK).Respond()
 	if err != nil {
@@ -28,7 +27,6 @@ func TestResponseOKEmpty(t *testing.T) {
 func TestResponseOKBody(t *testing.T) {
 	ctx := &handlerContext{
 		req: &request{request: &events.APIGatewayV2HTTPRequest{}},
-		sp:  &awsServiceProvider{config: &AWSServiceProviderConfig{}},
 	}
 	got, err := ctx.Response(http.StatusOK, map[string]string{"foo": "bar"}).Respond()
 	if err != nil {
@@ -46,7 +44,6 @@ func TestResponseOKBody(t *testing.T) {
 func TestResponseOKHeader(t *testing.T) {
 	ctx := &handlerContext{
 		req: &request{request: &events.APIGatewayV2HTTPRequest{}},
-		sp:  &awsServiceProvider{config: &AWSServiceProviderConfig{}},
 	}
 	got, err := ctx.Response(http.StatusOK).SetHeader("foo", "bar").Respond()
 	if err != nil {
@@ -64,7 +61,6 @@ func TestResponseOKHeader(t *testing.T) {
 func TestResponseOKCookie(t *testing.T) {
 	ctx := &handlerContext{
 		req: &request{request: &events.APIGatewayV2HTTPRequest{}},
-		sp:  &awsServiceProvider{config: &AWSServiceProviderConfig{}},
 	}
 	got, err := ctx.Response(http.StatusOK).SetCookie(&http.Cookie{Name: "foo", Value: "bar"}).Respond()
 	if err != nil {

@@ -6,15 +6,11 @@ import (
 
 // Context is the central piece of golamb. It allows one to access
 // a requests query parameters, path parameters, body, headers, and
-// cookies. An AWS service provider can also be lazy loaded. Messages
-// can be logged to the provided logger according to the provided log
-// level.
+// cookies. Messages can be logged to the provided logger according
+// to the provided log level.
 type Context interface {
 	// Request returns the http request.
 	Request() Request
-
-	// AWS returns the AWSServiceProvider.
-	AWS() AWSServiceProvider
 
 	// Response returns an http response with the given status code.
 	// An options response body can be provided as the second
@@ -56,17 +52,12 @@ type Context interface {
 
 type handlerContext struct {
 	req      *request
-	sp       *awsServiceProvider
 	logger   Logger
 	logLevel LogLevel
 }
 
 func (c *handlerContext) Request() Request {
 	return c.req
-}
-
-func (c *handlerContext) AWS() AWSServiceProvider {
-	return c.sp
 }
 
 func (c *handlerContext) Response(status int, body ...interface{}) Responder {

@@ -37,28 +37,16 @@ func TestGetHandler(t *testing.T) {
 }
 
 func TestGetConfigEmpty(t *testing.T) {
-	want := &Config{
-		AWSServiceProvider: &AWSServiceProviderConfig{},
-		PanicHandler:       defaultPanicHandler,
-	}
-	got := getConfig()
-	if !reflect.DeepEqual(want.AWSServiceProvider, got.AWSServiceProvider) {
-		t.Fatalf("want %v; got %v", want, got)
-	}
-	if got.PanicHandler == nil {
+	if getConfig().PanicHandler == nil {
 		t.Fatalf("unexpected nil panic handler")
 	}
 }
 
 func TestGetConfigProvided(t *testing.T) {
 	want := &Config{
-		AWSServiceProvider: &AWSServiceProviderConfig{},
-		PanicHandler:       defaultPanicHandler,
+		PanicHandler: defaultPanicHandler,
 	}
 	got := getConfig(want)
-	if !reflect.DeepEqual(want.AWSServiceProvider, got.AWSServiceProvider) {
-		t.Fatalf("want %v; got %v", want, got)
-	}
 	if got.PanicHandler == nil {
 		t.Fatalf("unexpected nil panic handler")
 	}

@@ -1,7 +1,6 @@
 package golamb
 
 import (
-	"io/ioutil"
 	"log"
 	"os"
 	"testing"
@@ -24,7 +23,7 @@ func TestContextLogDebug(t *testing.T) {
 		logLevel: LogLevelDebug,
 	}
 	ctx.LogDebug("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -51,7 +50,7 @@ func TestContextLogInfo(t *testing.T) {
 		logLevel: LogLevelInfo,
 	}
 	ctx.LogInfo("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -78,7 +77,7 @@ func TestContextLogNotice(t *testing.T) {
 		logLevel: LogLevelNotice,
 	}
 	ctx.LogNotice("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -105,7 +104,7 @@ func TestContextLogWarning(t *testing.T) {
 		logLevel: LogLevelWarning,
 	}
 	ctx.LogWarning("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -132,7 +131,7 @@ func TestContextLogError(t *testing.T) {
 		logLevel: LogLevelError,
 	}
 	ctx.LogError("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -159,7 +158,7 @@ func TestContextLogAlert(t *testing.T) {
 		logLevel: LogLevelAlert,
 	}
 	ctx.LogAlert("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -186,7 +185,7 @@ func TestContextLogCritical(t *testing.T) {
 		logLevel: LogLevelCritical,
 	}
 	ctx.LogCritical("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -213,7 +212,7 @@ func TestContextLogEmergency(t *testing.T) {
 		logLevel: LogLevelEmergency,
 	}
 	ctx.LogEmergency("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -240,7 +239,7 @@ func TestContextLogSilent(t *testing.T) {
 		logLevel: LogLevelSilent,
 	}
 	ctx.LogEmergency("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -267,7 +266,7 @@ func TestContextLogCriticalNone(t *testing.T) {
 		logLevel: LogLevelSilent,
 	}
 	ctx.LogCritical("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -294,7 +293,7 @@ func TestContextLogAlertNone(t *testing.T) {
 		logLevel: LogLevelSilent,
 	}
 	ctx.LogAlert("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -321,7 +320,7 @@ func TestContextLogErrorNone(t *testing.T) {
 		logLevel: LogLevelSilent,
 	}
 	ctx.LogError("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -348,7 +347,7 @@ func TestContextLogNoticeNone(t *testing.T) {
 		logLevel: LogLevelSilent,
 	}
 	ctx.LogNotice("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -375,7 +374,7 @@ func TestContextLogInfoNone(t *testing.T) {
 		logLevel: LogLevelSilent,
 	}
 	ctx.LogInfo("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -402,7 +401,7 @@ func TestContextLogDebugNone(t *testing.T) {
 		logLevel: LogLevelSilent,
 	}
 	ctx.LogDebug("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
@@ -429,7 +428,7 @@ func TestContextLogWarningNone(t *testing.T) {
 		logLevel: LogLevelSilent,
 	}
 	ctx.LogWarning("foo %s", "bar")
-	b, err := ioutil.ReadFile(fname)
+	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
 	}
