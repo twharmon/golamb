@@ -44,9 +44,6 @@ func (r *response) Respond() (*events.APIGatewayV2HTTPResponse, error) {
 }
 
 func (r *response) SetHeader(key string, value string) Responder {
-	if r.headers == nil {
-		r.headers = make(map[string]string)
-	}
 	r.headers[key] = value
 	return r
 }
