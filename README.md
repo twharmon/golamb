@@ -21,19 +21,11 @@ import (
 )
 
 func handler(c golamb.Context) golamb.Responder {
-	// AWS clients are lazy loaded.
-	ddb := c.AWS().DynamoDB()
+	// Get a query parameter
+	foo := c.Request().Query("foo")
 
-	output, err := ddb.GetItem(&dynamodb.GetItemInput{...})
-	if err != nil {
-		c.LogError("unable to get item: %s", err)
-		return c.Response(http.StatusInternalServerError)
-	}
-
-	if len(output.Item) == 0 {
-		c.LogWarning("item not found")
-		return c.Response(http.StatusNotFound)
-	}
+	// Get a path parameter
+	bar := c.Request().Path("bar")
 
 	return c.Response(http.StatusOK, output.Item)
 }

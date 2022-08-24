@@ -13,10 +13,9 @@ type Handler func(c Context) Responder
 
 // Config provides service configuration for service clients.
 type Config struct {
-	AWSServiceProvider *AWSServiceProviderConfig
-	PanicHandler       func(c Context, err error) Responder
-	LogLevel           LogLevel
-	Logger             Logger
+	PanicHandler func(c Context, err error) Responder
+	LogLevel     LogLevel
+	Logger       Logger
 }
 
 // Start takes in a Handler function. This is similar to
@@ -33,7 +32,6 @@ func getHandler(handlerFunc Handler, config ...*Config) lambda.Handler {
 		handler: func(r *events.APIGatewayV2HTTPRequest) (resp *events.APIGatewayV2HTTPResponse, err error) {
 			ctx := &handlerContext{
 				req:      &request{request: r},
-				sp:       &awsServiceProvider{config: cfg.AWSServiceProvider},
 				logger:   cfg.Logger,
 				logLevel: cfg.LogLevel,
 			}
@@ -56,9 +54,6 @@ func getConfig(configs ...*Config) *Config {
 	}
 	if cfg.PanicHandler == nil {
 		cfg.PanicHandler = defaultPanicHandler
-	}
-	if cfg.AWSServiceProvider == nil {
-		cfg.AWSServiceProvider = &AWSServiceProviderConfig{}
 	}
 	if cfg.Logger == nil {
 		cfg.Logger = NewDefaultLogger()

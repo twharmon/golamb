@@ -3,29 +3,30 @@
 // your lambda handler functions.
 //
 // Example:
-//    package main
 //
-//    func handler(c golamb.Context) golamb.Responder {
-//        foo := c.Request().Query("foo")
-//        body := map[string]string{"foo": foo}
-//        return c.Response(200, body)
-//    }
+//	package main
 //
-//    func main() {
-//        golamb.Start(handler)
-//    }
+//	func handler(c golamb.Context) golamb.Responder {
+//	    foo := c.Request().Query("foo")
+//	    body := map[string]string{"foo": foo}
+//	    return c.Response(200, body)
+//	}
 //
-//    func TestHandler(t *testing.T) {
-//        req := fakes.NewRequest().WithQuery(map[string]string{"foo": "bar"})
-//        ctx := fakes.NewContext().WithRequest(req)
-//        resp, err := handler(ctx).Respond()
-//        if err != nil {
-//            t.Fatalf("unexpected err: %s", err)
-//        }
-//        if resp.Body != `{"foo":"bar"}` {
-//            t.Fatalf("incorrect response: %v", resp)
-//        }
-//    }
+//	func main() {
+//	    golamb.Start(handler)
+//	}
+//
+//	func TestHandler(t *testing.T) {
+//	    req := fakes.NewRequest().WithQuery(map[string]string{"foo": "bar"})
+//	    ctx := fakes.NewContext().WithRequest(req)
+//	    resp, err := handler(ctx).Respond()
+//	    if err != nil {
+//	        t.Fatalf("unexpected err: %s", err)
+//	    }
+//	    if resp.Body != `{"foo":"bar"}` {
+//	        t.Fatalf("incorrect response: %v", resp)
+//	    }
+//	}
 package fakes
 
 import (
@@ -38,7 +39,6 @@ import (
 type Context struct {
 	request  *Request
 	response *Response
-	aws      *AWS
 }
 
 // NewContext creates a value that implements the golamb.Context
@@ -47,18 +47,12 @@ func NewContext() *Context {
 	return &Context{
 		request:  NewRequest(),
 		response: NewResponse(),
-		aws:      NewAWS(),
 	}
 }
 
 // Request implements the golamb.Context interface.
 func (c *Context) Request() golamb.Request {
 	return c.request
-}
-
-// AWS implements the golamb.Context interface.
-func (c *Context) AWS() golamb.AWSServiceProvider {
-	return c.aws
 }
 
 // Response implements the golamb.Context interface.
@@ -77,12 +71,6 @@ func (c *Context) Response(status int, body ...interface{}) golamb.Responder {
 // WithRequest sets the request of the fake Context.
 func (c *Context) WithRequest(r *Request) *Context {
 	c.request = r
-	return c
-}
-
-// WithAWS sets the AWS service provider of the fake Context.
-func (c *Context) WithAWS(a *AWS) *Context {
-	c.aws = a
 	return c
 }
 
