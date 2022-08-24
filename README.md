@@ -27,7 +27,10 @@ func handler(c golamb.Context) golamb.Responder {
 	// Get a path parameter
 	bar := c.Request().Path("bar")
 
-	return c.Response(http.StatusOK, output.Item)
+	return c.Response(http.StatusOK, map[string]any{
+		"foo": foo,
+		"bar": bar,
+	})
 }
 
 func main() {
