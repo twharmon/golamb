@@ -18,6 +18,7 @@ func TestResponseOKEmpty(t *testing.T) {
 	}
 	want := &events.APIGatewayV2HTTPResponse{
 		StatusCode: http.StatusOK,
+		Headers:    map[string]string{"content-type": "application/json"},
 	}
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("want %v; got %v", want, got)
@@ -35,6 +36,7 @@ func TestResponseOKBody(t *testing.T) {
 	want := &events.APIGatewayV2HTTPResponse{
 		StatusCode: http.StatusOK,
 		Body:       `{"foo":"bar"}`,
+		Headers:    map[string]string{"content-type": "application/json"},
 	}
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("want %v; got %v", want, got)
@@ -51,7 +53,10 @@ func TestResponseOKHeader(t *testing.T) {
 	}
 	want := &events.APIGatewayV2HTTPResponse{
 		StatusCode: http.StatusOK,
-		Headers:    map[string]string{"foo": "bar"},
+		Headers: map[string]string{
+			"foo":          "bar",
+			"content-type": "application/json",
+		},
 	}
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("want %v; got %v", want, got)
@@ -69,6 +74,7 @@ func TestResponseOKCookie(t *testing.T) {
 	want := &events.APIGatewayV2HTTPResponse{
 		StatusCode: http.StatusOK,
 		Cookies:    []string{"foo=bar"},
+		Headers:    map[string]string{"content-type": "application/json"},
 	}
 	if !reflect.DeepEqual(want, got) {
 		t.Fatalf("want %v; got %v", want, got)

@@ -61,7 +61,12 @@ func (c *handlerContext) Request() Request {
 }
 
 func (c *handlerContext) Response(status int, body ...interface{}) Responder {
-	r := response{status: status}
+	r := response{
+		status: status,
+		headers: map[string]string{
+			"content-type": "application/json",
+		},
+	}
 	if len(body) > 0 {
 		r.body = body[0]
 	}
