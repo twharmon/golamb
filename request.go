@@ -17,7 +17,7 @@ type Request interface {
 
 	// Body parses the JSON-encoded data and stores the result in the
 	// value pointed to by v.
-	Body(v interface{}) error
+	Body(v any) error
 
 	// Cookie returns the cookie with the given name.
 	Cookie(name string) *http.Cookie
@@ -45,7 +45,7 @@ func (r *request) Path(key string) string {
 	return r.request.PathParameters[key]
 }
 
-func (r *request) Body(v interface{}) error {
+func (r *request) Body(v any) error {
 	return json.Unmarshal([]byte(r.request.Body), v)
 }
 

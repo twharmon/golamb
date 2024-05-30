@@ -21,7 +21,7 @@ type Responder interface {
 
 type response struct {
 	status  int
-	body    interface{}
+	body    any
 	headers map[string]string
 	cookies []string
 }
