@@ -82,5 +82,5 @@ func NewDefaultLogger() Logger {
 
 // Log implements the Logger interface.
 func (l *DefaultLogger) Log(level LogLevel, message any) {
-	l.logger.Printf("%v\n", message)
+	l.logger.Printf("[%s] %v\n", level, message)
 }
