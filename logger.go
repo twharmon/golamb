@@ -64,7 +64,7 @@ func (l LogLevel) String() string {
 
 // Logger is used to log messages.
 type Logger interface {
-	Log(level LogLevel, message string)
+	Log(level LogLevel, message any)
 }
 
 // DefaultLogger logs messages to os.Stdout, which is sent to
@@ -81,6 +81,6 @@ func NewDefaultLogger() Logger {
 }
 
 // Log implements the Logger interface.
-func (l *DefaultLogger) Log(level LogLevel, message string) {
-	l.logger.Printf("%s\n", message)
+func (l *DefaultLogger) Log(level LogLevel, message any) {
+	l.logger.Printf("[%s] %v\n", level, message)
 }

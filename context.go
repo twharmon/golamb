@@ -130,6 +130,5 @@ func (c *handlerContext) LogEmergency(message string, args ...interface{}) {
 }
 
 func (c *handlerContext) log(level LogLevel, message string, args ...interface{}) {
-	msg := fmt.Sprintf("[%s] %s", level, fmt.Sprintf(message, args...))
-	c.logger.Log(level, msg)
+	c.logger.Log(level, fmt.Sprintf(message, args...))
 }
