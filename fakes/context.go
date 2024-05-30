@@ -75,41 +75,41 @@ func (c *Context) WithRequest(r *Request) *Context {
 }
 
 // LogDebug implements the golamb.Context interface.
-func (c *Context) LogDebug(message string, args ...interface{}) {
+func (c *Context) LogDebug(message any) {
 
 }
 
 // LogInfo implements the golamb.Context interface.
-func (c *Context) LogInfo(message string, args ...interface{}) {
+func (c *Context) LogInfo(message any) {
 
 }
 
 // LogNotice implements the golamb.Context interface.
-func (c *Context) LogNotice(message string, args ...interface{}) {
+func (c *Context) LogNotice(message any) {
 
 }
 
 // LogWarning implements the golamb.Context interface.
-func (c *Context) LogWarning(message string, args ...interface{}) {
+func (c *Context) LogWarning(message any) {
 
 }
 
 // LogError implements the golamb.Context interface.
-func (c *Context) LogError(message string, args ...interface{}) {
+func (c *Context) LogError(message any) {
 
 }
 
 // LogCritical implements the golamb.Context interface.
-func (c *Context) LogCritical(message string, args ...interface{}) {
+func (c *Context) LogCritical(message any) {
 
 }
 
 // LogAlert implements the golamb.Context interface.
-func (c *Context) LogAlert(message string, args ...interface{}) {
+func (c *Context) LogAlert(message any) {
 
 }
 
 // LogEmergency implements the golamb.Context interface.
-func (c *Context) LogEmergency(message string, args ...interface{}) {
+func (c *Context) LogEmergency(message any) {
 
 }
