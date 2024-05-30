@@ -57,7 +57,7 @@ func (r *Request) RawPath() string {
 }
 
 // Body implements the golamb.Request interface.
-func (r *Request) Body(v interface{}) error {
+func (r *Request) Body(v any) error {
 	return json.Unmarshal(r.body, v)
 }
 
@@ -92,7 +92,7 @@ func (r *Request) WithRawPath(rawPath string) *Request {
 }
 
 // WithBody sets the body of the fake Request.
-func (r *Request) WithBody(v interface{}) error {
+func (r *Request) WithBody(v any) error {
 	var err error
 	r.body, err = json.Marshal(v)
 	return err

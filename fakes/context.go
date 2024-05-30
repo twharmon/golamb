@@ -56,7 +56,7 @@ func (c *Context) Request() golamb.Request {
 }
 
 // Response implements the golamb.Context interface.
-func (c *Context) Response(status int, body ...interface{}) golamb.Responder {
+func (c *Context) Response(status int, body ...any) golamb.Responder {
 	c.response.response.StatusCode = status
 	if len(body) > 0 {
 		bs, err := json.Marshal(body[0])
@@ -75,41 +75,41 @@ func (c *Context) WithRequest(r *Request) *Context {
 }
 
 // LogDebug implements the golamb.Context interface.
-func (c *Context) LogDebug(message any) {
+func (c *Context) LogDebug(message string, args ...any) {
 
 }
 
 // LogInfo implements the golamb.Context interface.
-func (c *Context) LogInfo(message any) {
+func (c *Context) LogInfo(message string, args ...any) {
 
 }
 
 // LogNotice implements the golamb.Context interface.
-func (c *Context) LogNotice(message any) {
+func (c *Context) LogNotice(message string, args ...any) {
 
 }
 
 // LogWarning implements the golamb.Context interface.
-func (c *Context) LogWarning(message any) {
+func (c *Context) LogWarning(message string, args ...any) {
 
 }
 
 // LogError implements the golamb.Context interface.
-func (c *Context) LogError(message any) {
+func (c *Context) LogError(message string, args ...any) {
 
 }
 
 // LogCritical implements the golamb.Context interface.
-func (c *Context) LogCritical(message any) {
+func (c *Context) LogCritical(message string, args ...any) {
 
 }
 
 // LogAlert implements the golamb.Context interface.
-func (c *Context) LogAlert(message any) {
+func (c *Context) LogAlert(message string, args ...any) {
 
 }
 
 // LogEmergency implements the golamb.Context interface.
-func (c *Context) LogEmergency(message any) {
+func (c *Context) LogEmergency(message string, args ...any) {
 
 }
