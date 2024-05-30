@@ -22,7 +22,7 @@ func TestContextLogDebug(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelDebug,
 	}
-	ctx.LogDebug("foo %s", "bar")
+	ctx.LogDebug("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -49,7 +49,7 @@ func TestContextLogInfo(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelInfo,
 	}
-	ctx.LogInfo("foo %s", "bar")
+	ctx.LogInfo("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -76,7 +76,7 @@ func TestContextLogNotice(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelNotice,
 	}
-	ctx.LogNotice("foo %s", "bar")
+	ctx.LogNotice("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -103,7 +103,7 @@ func TestContextLogWarning(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelWarning,
 	}
-	ctx.LogWarning("foo %s", "bar")
+	ctx.LogWarning("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -130,7 +130,7 @@ func TestContextLogError(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelError,
 	}
-	ctx.LogError("foo %s", "bar")
+	ctx.LogError("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -157,7 +157,7 @@ func TestContextLogAlert(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelAlert,
 	}
-	ctx.LogAlert("foo %s", "bar")
+	ctx.LogAlert("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -184,7 +184,7 @@ func TestContextLogCritical(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelCritical,
 	}
-	ctx.LogCritical("foo %s", "bar")
+	ctx.LogCritical("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -211,7 +211,7 @@ func TestContextLogEmergency(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelEmergency,
 	}
-	ctx.LogEmergency("foo %s", "bar")
+	ctx.LogEmergency("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -238,7 +238,7 @@ func TestContextLogSilent(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelSilent,
 	}
-	ctx.LogEmergency("foo %s", "bar")
+	ctx.LogEmergency("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -265,7 +265,7 @@ func TestContextLogCriticalNone(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelSilent,
 	}
-	ctx.LogCritical("foo %s", "bar")
+	ctx.LogCritical("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -292,7 +292,7 @@ func TestContextLogAlertNone(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelSilent,
 	}
-	ctx.LogAlert("foo %s", "bar")
+	ctx.LogAlert("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -319,7 +319,7 @@ func TestContextLogErrorNone(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelSilent,
 	}
-	ctx.LogError("foo %s", "bar")
+	ctx.LogError("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -346,7 +346,7 @@ func TestContextLogNoticeNone(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelSilent,
 	}
-	ctx.LogNotice("foo %s", "bar")
+	ctx.LogNotice("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -373,7 +373,7 @@ func TestContextLogInfoNone(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelSilent,
 	}
-	ctx.LogInfo("foo %s", "bar")
+	ctx.LogInfo("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -400,7 +400,7 @@ func TestContextLogDebugNone(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelSilent,
 	}
-	ctx.LogDebug("foo %s", "bar")
+	ctx.LogDebug("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)
@@ -427,7 +427,7 @@ func TestContextLogWarningNone(t *testing.T) {
 		logger:   NewDefaultLogger(),
 		logLevel: LogLevelSilent,
 	}
-	ctx.LogWarning("foo %s", "bar")
+	ctx.LogWarning("foo bar")
 	b, err := os.ReadFile(fname)
 	if err != nil {
 		t.Fatalf("unexpected err: %s", err)

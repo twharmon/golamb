@@ -1,9 +1,5 @@
 package golamb
 
-import (
-	"fmt"
-)
-
 // Context is the central piece of golamb. It allows one to access
 // a requests query parameters, path parameters, body, headers, and
 // cookies. Messages can be logged to the provided logger according
@@ -17,37 +13,29 @@ type Context interface {
 	// argument.
 	Response(status int, body ...interface{}) Responder
 
-	// LogDebug logs the given message. Arguments are handled in the
-	// manner of fmt.Printf.
-	LogDebug(message string, args ...interface{})
+	// LogDebug logs the given message.
+	LogDebug(message any)
 
-	// LogInfo logs the given message. Arguments are handled in the
-	// manner of fmt.Printf.
-	LogInfo(message string, args ...interface{})
+	// LogInfo logs the given message.
+	LogInfo(message any)
 
-	// LogNotice logs the given message. Arguments are handled in the
-	// manner of fmt.Printf.
-	LogNotice(message string, args ...interface{})
+	// LogNotice logs the given message.
+	LogNotice(message any)
 
-	// LogWarning logs the given message. Arguments are handled in
-	// the manner of fmt.Printf.
-	LogWarning(message string, args ...interface{})
+	// LogWarning logs the given message.
+	LogWarning(message any)
 
-	// LogError logs the given message. Arguments are handled in the
-	// manner of fmt.Printf.
-	LogError(message string, args ...interface{})
+	// LogError logs the given message.
+	LogError(message any)
 
-	// LogCritical logs the given message. Arguments are handled in
-	// the manner of fmt.Printf.
-	LogCritical(message string, args ...interface{})
+	// LogCritical logs the given message.
+	LogCritical(message any)
 
-	// LogAlert logs the given message. Arguments are handled in the
-	// manner of fmt.Printf.
-	LogAlert(message string, args ...interface{})
+	// LogAlert logs the given message.
+	LogAlert(message any)
 
-	// LogEmergency logs the given message. Arguments are handled in
-	// the manner of fmt.Printf.
-	LogEmergency(message string, args ...interface{})
+	// LogEmergency logs the given message.
+	LogEmergency(message any)
 }
 
 type handlerContext struct {
@@ -73,62 +61,62 @@ func (c *handlerContext) Response(status int, body ...interface{}) Responder {
 	return &r
 }
 
-func (c *handlerContext) LogDebug(message string, args ...interface{}) {
+func (c *handlerContext) LogDebug(message any) {
 	if c.logLevel > LogLevelDebug {
 		return
 	}
-	c.log(LogLevelDebug, message, args...)
+	c.log(LogLevelDebug, message)
 }
 
-func (c *handlerContext) LogInfo(message string, args ...interface{}) {
+func (c *handlerContext) LogInfo(message any) {
 	if c.logLevel > LogLevelInfo {
 		return
 	}
-	c.log(LogLevelInfo, message, args...)
+	c.log(LogLevelInfo, message)
 }
 
-func (c *handlerContext) LogNotice(message string, args ...interface{}) {
+func (c *handlerContext) LogNotice(message any) {
 	if c.logLevel > LogLevelNotice {
 		return
 	}
-	c.log(LogLevelNotice, message, args...)
+	c.log(LogLevelNotice, message)
 }
 
-func (c *handlerContext) LogWarning(message string, args ...interface{}) {
+func (c *handlerContext) LogWarning(message any) {
 	if c.logLevel > LogLevelWarning {
 		return
 	}
-	c.log(LogLevelWarning, message, args...)
+	c.log(LogLevelWarning, message)
 }
 
-func (c *handlerContext) LogError(message string, args ...interface{}) {
+func (c *handlerContext) LogError(message any) {
 	if c.logLevel > LogLevelError {
 		return
 	}
-	c.log(LogLevelError, message, args...)
+	c.log(LogLevelError, message)
 }
 
-func (c *handlerContext) LogCritical(message string, args ...interface{}) {
+func (c *handlerContext) LogCritical(message any) {
 	if c.logLevel > LogLevelCritical {
 		return
 	}
-	c.log(LogLevelCritical, message, args...)
+	c.log(LogLevelCritical, message)
 }
 
-func (c *handlerContext) LogAlert(message string, args ...interface{}) {
+func (c *handlerContext) LogAlert(message any) {
 	if c.logLevel > LogLevelAlert {
 		return
 	}
-	c.log(LogLevelAlert, message, args...)
+	c.log(LogLevelAlert, message)
 }
 
-func (c *handlerContext) LogEmergency(message string, args ...interface{}) {
+func (c *handlerContext) LogEmergency(message any) {
 	if c.logLevel > LogLevelEmergency {
 		return
 	}
-	c.log(LogLevelEmergency, message, args...)
+	c.log(LogLevelEmergency, message)
 }
 
-func (c *handlerContext) log(level LogLevel, message string, args ...interface{}) {
-	c.logger.Log(level, fmt.Sprintf(message, args...))
+func (c *handlerContext) log(level LogLevel, message any) {
+	c.logger.Log(level, message)
 }

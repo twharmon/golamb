@@ -62,6 +62,6 @@ func getConfig(configs ...*Config) *Config {
 }
 
 func defaultPanicHandler(c Context, err error) Responder {
-	c.LogError("handler panic recovered: %s", err)
+	c.LogError(fmt.Sprintf("handler panic recovered: %s", err))
 	return c.Response(http.StatusInternalServerError)
 }
